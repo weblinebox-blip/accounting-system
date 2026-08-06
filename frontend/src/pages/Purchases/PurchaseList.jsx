@@ -16,11 +16,40 @@ export default function PurchaseList() {
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(() => {
-    setLoading(true);
-    listPurchases({ search, from, to, supplier, sortBy, sortDir, page: 1, pageSize: 50 })
-      .then(setResult)
-      .finally(() => setLoading(false));
-  }, [search, from, to, supplier, sortBy, sortDir]);
+  setLoading(true);
+
+  listPurchases({
+    search,
+    from,
+    to,
+    supplier,
+    sortBy,
+    sortDir,
+    page: 1,
+    pageSize: 50
+  })
+    .then((response) => {
+      setResult({
+        data: Array.isArray(response?.data) ? response.data : [],
+        total: Number(response?.total || 0),
+        page: Number(response?.page || 1),
+        pageSize: Number(response?.pageSize || 50)
+      });
+    })
+    .catch((error) => {
+      console.error('خطا در دریافت فاکتورهای خرید:', error);
+
+      setResult({
+        data: [],
+        total: 0,
+        page: 1,
+        pageSize: 50
+      });
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+}, [search, from, to, supplier, sortBy, sortDir]);
 
   useEffect(() => {
     const timer = setTimeout(fetchData, 300); // debounce برای جستجوی سریع
@@ -77,7 +106,7 @@ export default function PurchaseList() {
       <div className="card" style={{ padding: 0 }}>
         {loading ? (
           <p style={{ padding: 20 }}>در حال بارگذاری...</p>
-        ) : result.data.length === 0 ? (
+  ) : !Array.isArray(result?.data) || result.data.length === 0 ? (
           <div className="empty-state">
             <h3>فاکتوری یافت نشد</h3>
             <p>یک فاکتور خرید جدید ثبت کنید یا فیلترها را تغییر دهید.</p>
@@ -96,7 +125,7 @@ export default function PurchaseList() {
               </tr>
             </thead>
             <tbody>
-              {result.data.map((inv) => (
+             {(result?.data || []).map((inv) => (
                 <tr key={inv.id}>
                   <td>{inv.invoice_number}</td>
                   <td>{gregorianToJalali(inv.purchase_date)}</td>
