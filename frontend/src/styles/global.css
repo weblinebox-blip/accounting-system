@@ -1,0 +1,260 @@
+/* پالت رنگی: سبز خاکستری ملایم (Sage) + کارامل/تن گرم، پس‌زمینه‌ی کرم روشن، طراحی مینیمال داشبوردی */
+:root {
+  --bg: #EFEDE6;
+  --surface: #FFFFFF;
+  --surface-alt: #F7F5EF;
+  --ink: #3B3A36;
+  --ink-soft: #8D8B82;
+  --border: #E4E1D6;
+
+  --sage: #7C9A8D;
+  --sage-dark: #5C7A6E;
+  --sage-tint: #E4EBE6;
+
+  --tan: #C98F55;
+  --tan-dark: #A8703E;
+  --tan-tint: #F5E7D5;
+
+  --primary: var(--sage);
+  --primary-dark: var(--sage-dark);
+  --primary-tint: var(--sage-tint);
+
+  --success: #7C9A8D;
+  --success-dark: #4E6B5E;
+  --success-tint: #E4EBE6;
+  --danger: #C4674F;
+  --danger-dark: #9C4E3A;
+  --danger-tint: #F6E4DE;
+
+  --sidebar-bg: linear-gradient(180deg, #8FA69B 0%, #6E8B7E 100%);
+  --sidebar-ink: #EAF1EC;
+  --sidebar-active: #C98F55;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-pill: 999px;
+  --shadow: 0 12px 26px rgba(60, 66, 60, 0.08), 0 2px 6px rgba(60, 66, 60, 0.05);
+  --shadow-sm: 0 4px 12px rgba(60, 66, 60, 0.07);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Vazirmatn', Tahoma, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  direction: rtl;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: var(--sidebar-bg);
+  color: var(--sidebar-ink);
+  padding: 28px 18px;
+}
+
+.sidebar h1 {
+  font-size: 17px;
+  color: #fff;
+  margin: 0 0 26px;
+  font-weight: 700;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 11px 16px;
+  border-radius: var(--radius-sm);
+  color: var(--sidebar-ink);
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom: 6px;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+}
+
+.sidebar nav a:hover { background: rgba(255,255,255,0.14); }
+.sidebar nav a.active {
+  background: var(--tan);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 6px 14px rgba(201, 143, 85, 0.4);
+}
+
+.content {
+  padding: 30px 34px;
+  max-width: 1200px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.page-header h2 { font-size: 20px; margin: 0; color: var(--ink); }
+
+.btn {
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 10px 20px;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.1s, box-shadow 0.15s, background 0.15s;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--sage); color: #fff; box-shadow: 0 6px 14px rgba(124, 154, 141, 0.35); }
+.btn-primary:hover { background: var(--sage-dark); }
+.btn-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--ink); }
+.btn-secondary:hover { background: var(--surface-alt); }
+.btn-danger { background: var(--danger); color: #fff; box-shadow: 0 6px 14px rgba(196, 103, 79, 0.3); }
+.btn-danger:hover { background: var(--danger-dark); }
+.btn-sm { padding: 7px 14px; font-size: 13px; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 22px;
+  margin-bottom: 22px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.field label {
+  display: block;
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.field input, .field select, .field textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 14px;
+  background: var(--surface-alt);
+  color: var(--ink);
+}
+
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none;
+  border-color: var(--tan);
+  box-shadow: 0 0 0 3px var(--tan-tint);
+  background: #fff;
+}
+
+/* جدول به سبک «داشبورد تمیز»: بدون پس‌زمینه‌ی رنگی روی هدر، خطوط ظریف، فاصله‌ی بیشتر، سایه‌ی نرم روی هاور */
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+thead th {
+  text-align: right;
+  background: transparent;
+  color: var(--ink-soft);
+  padding: 10px 16px 12px;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  border-bottom: 2px solid var(--border);
+}
+tbody td { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+tbody tr { transition: box-shadow 0.15s, background 0.15s; }
+tbody tr:hover { background: var(--surface-alt); box-shadow: inset 0 0 0 9999px rgba(124,154,141,0.03); }
+tbody tr:last-child td { border-bottom: none; }
+
+.badge { padding: 4px 12px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 700; }
+.badge-done { background: var(--success-tint); color: var(--success-dark); }
+.badge-pending { background: var(--danger-tint); color: var(--danger-dark); }
+
+.toolbar { display: flex; gap: 10px; align-items: center; margin-bottom: 18px; flex-wrap: wrap; }
+.toolbar input, .toolbar select {
+  padding: 9px 14px; border: 1px solid var(--border); border-radius: var(--radius-pill);
+  font-family: inherit; background: var(--surface);
+}
+
+.items-table input {
+  width: 100%; padding: 7px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-family: inherit; font-size: 13px; background: var(--surface-alt);
+}
+.items-table input:focus { outline: none; border-color: var(--tan); box-shadow: 0 0 0 3px var(--tan-tint); background: #fff; }
+
+.summary-row { display: flex; gap: 24px; margin-top: 16px; font-size: 14px; flex-wrap: wrap; }
+.summary-row strong { color: var(--tan-dark); }
+
+.empty-state { text-align: center; padding: 60px 20px; color: var(--ink-soft); }
+.empty-state h3 { color: var(--ink); margin-bottom: 6px; }
+
+.alert { padding: 12px 18px; border-radius: var(--radius-sm); margin-bottom: 16px; font-size: 14px; }
+.alert-error { background: var(--danger-tint); color: var(--danger-dark); }
+.alert-success { background: var(--success-tint); color: var(--success-dark); }
+
+.status-toggle { display: flex; gap: 8px; }
+.status-btn {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--ink-soft);
+  transition: all 0.15s;
+}
+.status-btn.active-paid { background: var(--success-tint); border-color: var(--success-dark); color: var(--success-dark); font-weight: 700; }
+.status-btn.active-unpaid { background: var(--danger-tint); border-color: var(--danger-dark); color: var(--danger-dark); font-weight: 700; }
+
+.autocomplete-wrap { position: relative; }
+.autocomplete-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  left: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  max-height: 260px;
+  overflow-y: auto;
+  z-index: 20;
+}
+.autocomplete-item { padding: 10px 14px; cursor: pointer; font-size: 14px; border-radius: var(--radius-sm); margin: 2px 6px; }
+.autocomplete-item:hover { background: var(--tan-tint); }
+
+.invoice-preview {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px;
+  max-width: 620px;
+  margin: 0 auto;
+}
+.invoice-preview h3 { text-align: center; margin: 0 0 4px; font-size: 18px; color: var(--sage-dark); }
+.invoice-preview .invoice-meta { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-soft); margin-bottom: 14px; border-bottom: 1px dashed var(--border); padding-bottom: 10px; }
+.invoice-preview table { font-size: 13px; background: #fff; border-radius: var(--radius-sm); overflow: hidden; }
+.invoice-preview tfoot td { font-weight: 700; border-top: 2px solid var(--tan-tint); }
+
+/* شماره‌ی ردیف رنگی برای جدول‌های گزارش (مثل نمونه‌ی دشبورد) */
+.row-index {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 800; min-width: 22px;
+}
+.row-index.c1 { color: var(--sage-dark); }
+.row-index.c2 { color: var(--tan-dark); }
+.row-index.c3 { color: #C4674F; }
+.row-index.c4 { color: #6E8B7E; }
+.row-index.c5 { color: #8D8B82; }
