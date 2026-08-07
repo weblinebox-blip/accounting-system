@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_BASE_URL } from './client.js';
 
-const client = axios.create({ baseURL: '/api/sales' });
+const client = axios.create({ baseURL: `${API_BASE_URL}/api/sales` });
 
 export const listSales = (params) => client.get('/', { params }).then((r) => r.data);
 export const getSale = (id) => client.get(`/${id}`).then((r) => r.data);

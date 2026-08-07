@@ -6,10 +6,13 @@ export default function SuppliersTab() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getSupplierBalance().then((data) => {
-      setBalance(data);
-      setLoading(false);
-    });
+    getSupplierBalance()
+      .then((data) => setBalance(Array.isArray(data) ? data : []))
+      .catch((error) => {
+        console.error('خطا در دریافت مانده حساب تامین‌کنندگان:', error);
+        setBalance([]);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) return <p>در حال بارگذاری گزارش...</p>;

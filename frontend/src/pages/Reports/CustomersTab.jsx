@@ -175,12 +175,19 @@ export default function CustomersTab() {
   useEffect(() => {
     Promise.all([getCustomerBalance(), getSalesByCustomer({}), getCustomerLifetime(), getUnsettledInvoices()])
       .then(([b, s, l, u]) => {
-        setBalance(b);
-        setByCustomer(s);
-        setLifetime(l);
-        setUnsettled(u);
-        setLoading(false);
-      });
+        setBalance(Array.isArray(b) ? b : []);
+        setByCustomer(Array.isArray(s) ? s : []);
+        setLifetime(Array.isArray(l) ? l : []);
+        setUnsettled(Array.isArray(u) ? u : []);
+      })
+      .catch((error) => {
+        console.error('خطا در دریافت گزارش مشتریان:', error);
+        setBalance([]);
+        setByCustomer([]);
+        setLifetime([]);
+        setUnsettled([]);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   return (

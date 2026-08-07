@@ -19,7 +19,18 @@ export default function SalesList() {
   const fetchData = useCallback(() => {
     setLoading(true);
     listSales({ search, from, to, customer, sortBy, sortDir, page: 1, pageSize: 50 })
-      .then(setResult)
+      .then((response) => {
+        setResult({
+          data: Array.isArray(response?.data) ? response.data : [],
+          total: Number(response?.total || 0),
+          page: Number(response?.page || 1),
+          pageSize: Number(response?.pageSize || 50),
+        });
+      })
+      .catch((error) => {
+        console.error('خطا در دریافت فاکتورهای فروش:', error);
+        setResult({ data: [], total: 0, page: 1, pageSize: 50 });
+      })
       .finally(() => setLoading(false));
   }, [search, from, to, customer, sortBy, sortDir]);
 

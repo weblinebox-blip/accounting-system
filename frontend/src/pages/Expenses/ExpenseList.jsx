@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import { listExpenses, deleteExpense, getExpenseCategories } from '../../api/expenseApi.js';
+import { apiUrl } from '../../api/client.js';
 import { gregorianToJalali } from '../../utils/jalaliDate.js';
 import JalaliDatePicker from '../../components/JalaliDatePicker.jsx';
 
@@ -23,7 +24,18 @@ export default function ExpenseList() {
   const fetchData = useCallback(() => {
     setLoading(true);
     listExpenses({ search, from, to, category, sortBy, sortDir, page: 1, pageSize: 50 })
-      .then(setResult)
+      .then((response) => {
+        setResult({
+          data: Array.isArray(response?.data) ? response.data : [],
+          total: Number(response?.total || 0),
+          page: Number(response?.page || 1),
+          pageSize: Number(response?.pageSize || 50),
+        });
+      })
+      .catch((error) => {
+        console.error('خطا در دریافت هزینه‌ها:', error);
+        setResult({ data: [], total: 0, page: 1, pageSize: 50 });
+      })
       .finally(() => setLoading(false));
   }, [search, from, to, category, sortBy, sortDir]);
 
@@ -113,7 +125,7 @@ export default function ExpenseList() {
                   <td style={{ maxWidth: 220, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{exp.description}</td>
                   <td>
                     {exp.receipt_image_path ? (
-                      <a href={exp.receipt_image_path} target="_blank" rel="noreferrer">مشاهده</a>
+                      <a href={apiUrl(exp.receipt_image_path)} target="_blank" rel="noreferrer">مشاهده</a>
                     ) : '—'}
                   </td>
                   <td style={{ display: 'flex', gap: 8 }}>

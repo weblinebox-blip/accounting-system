@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_BASE_URL } from './client.js';
 
-const client = axios.create({ baseURL: '/api/reports' });
+const client = axios.create({ baseURL: `${API_BASE_URL}/api/reports` });
 
 export const getProfitLoss = (params) => client.get('/profit-loss', { params }).then((r) => r.data);
 export const getSalesTotals = (params) => client.get('/sales-totals', { params }).then((r) => r.data);

@@ -36,15 +36,32 @@ export default function OverviewTab({ period, from, to }) {
       getSalesChart(params),
       getExpensesChart(params),
       getProfitChart(params),
-    ]).then(([pl, pt, et, sc, ec, pc]) => {
-      setProfitLoss(pl);
-      setPurchaseTotals(pt);
-      setExpensesTotal(et);
-      setSalesChart(sc.map((r) => ({ ...r, label: formatPeriodLabel(r.period) })));
-      setExpensesChart(ec.map((r) => ({ ...r, label: formatPeriodLabel(r.period) })));
-      setProfitChart(pc.map((r) => ({ ...r, label: formatPeriodLabel(r.period) })));
-      setLoading(false);
-    });
+    ])
+      .then(([pl, pt, et, sc, ec, pc]) => {
+        setProfitLoss({
+          totalSales: 0,
+          totalPurchases: 0,
+          totalExpenses: 0,
+          totalLoss: 0,
+          netProfit: 0,
+          ...pl,
+        });
+        setPurchaseTotals(pt);
+        setExpensesTotal(et);
+        setSalesChart(Array.isArray(sc) ? sc.map((r) => ({ ...r, label: formatPeriodLabel(r.period) })) : []);
+        setExpensesChart(Array.isArray(ec) ? ec.map((r) => ({ ...r, label: formatPeriodLabel(r.period) })) : []);
+        setProfitChart(Array.isArray(pc) ? pc.map((r) => ({ ...r, label: formatPeriodLabel(r.period) })) : []);
+      })
+      .catch((error) => {
+        console.error('خطا در دریافت گزارش کلی:', error);
+        setProfitLoss({ totalSales: 0, totalPurchases: 0, totalExpenses: 0, totalLoss: 0, netProfit: 0 });
+        setPurchaseTotals(null);
+        setExpensesTotal(null);
+        setSalesChart([]);
+        setExpensesChart([]);
+        setProfitChart([]);
+      })
+      .finally(() => setLoading(false));
   }, [period, from, to]);
 
   if (loading || !profitLoss) return <p>در حال بارگذاری گزارش...</p>;

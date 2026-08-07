@@ -15,13 +15,21 @@ export default function ProductsTab() {
       getBottomProducts({ limit: 10 }),
       getInventory(),
       getLastSalePerProduct(),
-    ]).then(([t, b, inv, ls]) => {
-      setTop(t);
-      setBottom(b);
-      setInventory(inv);
-      setLastSale(ls);
-      setLoading(false);
-    });
+    ])
+      .then(([t, b, inv, ls]) => {
+        setTop(Array.isArray(t) ? t : []);
+        setBottom(Array.isArray(b) ? b : []);
+        setInventory(Array.isArray(inv) ? inv : []);
+        setLastSale(Array.isArray(ls) ? ls : []);
+      })
+      .catch((error) => {
+        console.error('خطا در دریافت گزارش محصولات:', error);
+        setTop([]);
+        setBottom([]);
+        setInventory([]);
+        setLastSale([]);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) return <p>در حال بارگذاری گزارش...</p>;
